@@ -6,13 +6,16 @@ allprojects {
 }
 
 // Memaksa SEMUA subproject (termasuk plugin pihak ketiga seperti
-// tflite_flutter yang belum konsisten set target JVM-nya sendiri)
-// untuk pakai Java & Kotlin target 17 yang sama. Ini yang menghindari
-// error "Inconsistent JVM Target Compatibility Between Java and
-// Kotlin Tasks" yang munculnya dari modul plugin, bukan dari app kamu.
+// tflite_flutter dan onnxruntime) memakai pengaturan yang sama:
+// - Java & Kotlin target 17 (menghindari error "Inconsistent JVM Target
+//   Compatibility Between Java and Kotlin Tasks").
+// - compileSdk 36 (onnxruntime di-compile dengan android-33, sedangkan
+//   library AndroidX yang dipakainya butuh minimal 34).
+// Blok ini harus berada SEBELUM evaluationDependsOn(":app").
 subprojects {
     afterEvaluate {
         extensions.findByType<com.android.build.gradle.BaseExtension>()?.apply {
+            compileSdkVersion(36)
             compileOptions {
                 sourceCompatibility = JavaVersion.VERSION_17
                 targetCompatibility = JavaVersion.VERSION_17

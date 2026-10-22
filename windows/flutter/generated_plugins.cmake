@@ -7,7 +7,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  executorch_flutter
   jni
+  onnxruntime
   tflite_flutter
 )
 
